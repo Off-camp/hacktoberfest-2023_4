@@ -1,0 +1,56 @@
+Given two strings s and t. Return the minimum number of operations required to convert s to t.
+The possible operations are permitted:
+
+Insert a character at any position of the string.
+Remove any character from the string.
+Replace any character from the string with any other character.
+ 
+
+Example 1:
+
+Input: 
+s = "geek", t = "gesek"
+Output: 1
+Explanation: One operation is required 
+inserting 's' between two 'e's of s.
+Example 2:
+
+Input : 
+s = "gfg", t = "gfg"
+Output: 
+0
+Explanation: Both strings are same.
+
+
+
+def minDistance(s, t):
+    m, n = len(s), len(t)
+
+    # Initialize a 2D DP table with (m+1) rows and (n+1) columns
+    dp = [[0] * (n + 1) for _ in range(m + 1)]
+
+    # Fill in the DP table using dynamic programming
+    for i in range(m + 1):
+        for j in range(n + 1):
+            if i == 0:
+                dp[i][j] = j
+            elif j == 0:
+                dp[i][j] = i
+            elif s[i - 1] == t[j - 1]:
+                dp[i][j] = dp[i - 1][j - 1]
+            else:
+                dp[i][j] = 1 + min(dp[i - 1][j], dp[i][j - 1], dp[i - 1][j - 1])
+
+    return dp[m][n]
+
+# Example usage
+s1 = "geek"
+t1 = "gesek"
+s2 = "gfg"
+t2 = "gfg"
+
+output1 = minDistance(s1, t1)
+output2 = minDistance(s2, t2)
+
+print(output1)  # Output: 1
+print(output2)  # Output: 0
